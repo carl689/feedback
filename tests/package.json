@@ -1,7 +1,7 @@
 {
   "name": "feedback-widget-tests",
   "private": true,
-  "description": "The feedback widget's own browser tests. See ../README.md, Running the tests.",
+  "description": "The feedback widget's own browser tests. See ../docs/testing.md.",
   "scripts": {
     "test": "playwright test"
   },

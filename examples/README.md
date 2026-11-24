@@ -1,6 +1,6 @@
 # Example receivers
 
-Two minimal receivers for the feedback protocol, schemaVersion 1: `receiver.php` and `receiver.js`.
+Two minimal receivers for the [feedback protocol](../docs/protocol.md), schemaVersion 1: `receiver.php` and `receiver.js`.
 Each is one file with no dependencies that reads the `report` form field and up to two uploaded
 files, checks them, and writes them to a directory. They are starting points to copy, not a
 service to deploy as they are: read "What they leave out" before either faces the internet.
@@ -25,7 +25,14 @@ example `php -d upload_max_filesize=16M -d post_max_size=17M -S …`. The script
 5 MB for a screenshot and 12 MB for a recording; the Node receiver also stops reading a request
 at 18 MB.
 
-Check either one with the conformance tool:
+To see the widget posting to the Node receiver, `demo.js` serves a made-up page (`demo.html`) with
+the widget on it and passes its reports to `receiver.js`, started beside it:
+
+```sh
+FEEDBACK_DIR=/tmp/feedback-reports node demo.js     # then open http://127.0.0.1:8000/
+```
+
+Check either receiver with the conformance tool:
 
 ```sh
 node ../tests/conformance.js http://127.0.0.1:8000/
@@ -110,11 +117,3 @@ and the receiver reads a cookie. A widget given `headers` makes the browser send
 preflight first; answer it with 204, the same `Access-Control-Allow-Origin`,
 `Access-Control-Allow-Methods: POST` and `Access-Control-Allow-Headers` naming those headers
 (both examples answer `OPTIONS` with 405 as they stand).
-
-## Their size
-
-The design promised each under 50 lines. Honestly written, with every check the protocol requires
-of a receiver, they are a little over 100 lines of code each, a short header comment and blank
-lines not counted. What takes the room is the protocol's own list: the
-caps re-applied, the types read from the bytes, the pixel limit (by hand in Node, where there is
-no `getimagesize()`) and the size limits.

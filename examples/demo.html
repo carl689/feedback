@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- A made-up web app with the widget on it, served by demo.js. Everything on it is invented.
+     The two lines that matter are the stub's <script> tag and the button with data-feedback. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Orders · Demo app</title>
+
+<script src="/feedback.js" data-endpoint="/feedback" data-project="demo" defer></script>
+
+<style>
+:root {
+    color-scheme: light dark;
+    --bg: #f5f6f8; --card: #fff; --text: #1f2328; --muted: #656d76; --line: #e3e6ea; --accent: #2563eb;
+    --ok: #1a7f4b; --ok-bg: #e3f5ea; --wait: #8a5a00; --wait-bg: #fdf1d3; --idle: #57606a; --idle-bg: #eceef1;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #111214; --card: #1b1c1f; --text: #ececee; --muted: #9a9ca3; --line: #2c2e33; --accent: #6b9bff;
+        --ok: #6fd39b; --ok-bg: #173324; --wait: #f0c264; --wait-bg: #3a2e12; --idle: #b3b6bd; --idle-bg: #2a2c31;
+    }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, sans-serif; }
+header { display: flex; align-items: center; gap: 24px; padding: 0 24px; height: 56px; background: var(--card); border-bottom: 1px solid var(--line); }
+.brand { font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.brand::before { content: ''; width: 18px; height: 18px; border-radius: 5px; background: var(--accent); }
+nav { display: flex; gap: 4px; flex: 1; }
+nav a { padding: 6px 12px; border-radius: 6px; color: var(--muted); text-decoration: none; }
+nav a[aria-current] { color: var(--text); background: var(--bg); font-weight: 600; }
+button { font: inherit; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--text); cursor: pointer; }
+main { max-width: 1040px; margin: 0 auto; padding: 28px 24px 64px; }
+h1 { font-size: 22px; margin: 0 0 20px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stat, .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.stat { padding: 14px 16px; }
+.stat b { display: block; font-size: 24px; }
+.stat span { color: var(--muted); font-size: 13px; }
+.card { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+tr:last-child td { border-bottom: 0; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.pill { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.shipped, .active { color: var(--ok); background: var(--ok-bg); }
+.packing, .low { color: var(--wait); background: var(--wait-bg); }
+.open, .draft { color: var(--idle); background: var(--idle-bg); }
+.form { padding: 20px; display: grid; gap: 14px; max-width: 460px; }
+.form label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.form input { font: inherit; padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); }
+.form p { margin: 0; color: var(--muted); font-size: 13px; }
+@media (max-width: 560px) {
+    header { padding: 0 12px; gap: 8px; }
+    .brand { font-size: 0; gap: 0; }
+    nav a { padding: 6px 8px; }
+    header button { padding: 6px 10px; }
+    main { padding: 20px 12px 64px; }
+}
+</style>
+</head>
+<body>
+<header>
+    <span class="brand">Demo app</span>
+    <nav>
+        <a href="/">Orders</a>
+        <a href="/?page=products">Products</a>
+        <a href="/?page=settings">Settings</a>
+    </nav>
+    <button type="button" data-feedback>Feedback</button>
+</header>
+<main id="main"></main>
+
+<script>
+// Three pages from one file, each a real page load, so a recording can be seen following from one to the next.
+const pages = {
+    orders: {
+        title: 'Orders',
+        stats: [['128', 'Orders this week'], ['17', 'Waiting to ship'], ['$9,412', 'Sales this week'], ['2', 'Returns']],
+        head: ['Order', 'Items', 'Total', 'Status', 'Updated'],
+        rows: [
+            ['#1048', '2 × Canvas tote, natural', '$36.00', 'Open', '2 minutes ago'],
+            ['#1047', '1 × Enamel mug, green', '$14.50', 'Packing', '9 minutes ago'],
+            ['#1046', '3 × Notebook, dotted', '$27.00', 'Packing', '24 minutes ago'],
+            ['#1045', '1 × Desk lamp, brass', '$89.00', 'Shipped', '1 hour ago'],
+            ['#1044', '4 × Pencil set', '$22.00', 'Shipped', '1 hour ago'],
+            ['#1043', '1 × Wool blanket, grey', '$120.00', 'Shipped', '3 hours ago'],
+            ['#1042', '2 × Enamel mug, white', '$29.00', 'Shipped', 'Yesterday'],
+            ['#1041', '1 × Canvas tote, black', '$18.00', 'Shipped', 'Yesterday']
+        ]
+    },
+    products: {
+        title: 'Products',
+        stats: [['36', 'Products'], ['4', 'Low on stock'], ['2', 'Drafts']],
+        head: ['Product', 'SKU', 'Price', 'Status', 'In stock'],
+        rows: [
+            ['Canvas tote, natural', 'TOTE-NAT', '$18.00', 'Active', '214'],
+            ['Canvas tote, black', 'TOTE-BLK', '$18.00', 'Active', '96'],
+            ['Enamel mug, green', 'MUG-GRN', '$14.50', 'Low', '7'],
+            ['Enamel mug, white', 'MUG-WHT', '$14.50', 'Active', '58'],
+            ['Notebook, dotted', 'NOTE-DOT', '$9.00', 'Active', '340'],
+            ['Desk lamp, brass', 'LAMP-BRS', '$89.00', 'Low', '3'],
+            ['Wool blanket, grey', 'BLKT-GRY', '$120.00', 'Active', '22'],
+            ['Pencil set', 'PNCL-SET', '$5.50', 'Draft', '0']
+        ]
+    },
+    settings: {title: 'Settings'}
+};
+const name = new URLSearchParams(location.search).get('page');
+const page = pages[name] || pages.orders;
+const el = (tag, text, cls) => {
+    const e = document.createElement(tag);
+    if (text != null) e.textContent = text;
+    if (cls) e.className = cls;
+    return e;
+};
+const main = document.getElementById('main');
+document.title = page.title + ' · Demo app';
+document.querySelectorAll('nav a').forEach(a => { if (a.textContent === page.title) a.setAttribute('aria-current', 'page'); });
+main.append(el('h1', page.title));
+
+if (page.rows) {
+    const stats = el('div', null, 'stats');
+    for (const [value, label] of page.stats) {
+        const stat = el('div', null, 'stat');
+        stat.append(el('b', value), el('span', label));
+        stats.append(stat);
+    }
+    const table = el('table');
+    const head = el('tr');
+    page.head.forEach((h, i) => head.append(el('th', h, i === 2 ? 'num' : '')));
+    table.append(head);
+    for (const row of page.rows) {
+        const tr = el('tr');
+        row.forEach((cell, i) => {
+            const td = el('td', i === 3 ? null : cell, i === 2 ? 'num' : '');
+            if (i === 3) td.append(el('span', cell, 'pill ' + cell.toLowerCase()));
+            tr.append(td);
+        });
+        table.append(tr);
+    }
+    const card = el('div', null, 'card');
+    card.append(table);
+    main.append(stats, card);
+} else {
+    const form = el('div', null, 'card form');
+    const label = el('label', 'Store name');
+    const input = el('input');
+    input.value = 'Demo store';
+    label.append(input);
+    const broken = el('button', 'Save');
+    broken.type = 'button';
+    // Broken on purpose: press it, then Feedback, and the error is in the report.
+    broken.addEventListener('click', () => { throw new TypeError("Cannot read properties of undefined (reading 'storeName')"); });
+    form.append(label, el('p', 'Save is broken on purpose. Press it, then press Feedback: the error it throws is in the report.'), broken);
+    main.append(form);
+}
+</script>
+</body>
+</html>

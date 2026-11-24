@@ -1,4 +1,4 @@
-// The widget's own tests. README.md, Running the tests, says how to run them.
+// The widget's own tests. docs/testing.md says how to run them.
 'use strict';
 const {defineConfig} = require('@playwright/test');
 

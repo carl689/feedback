@@ -4,8 +4,8 @@
  * buffer. It validates every setting the stub did not (one console warning per bad key, the
  * default used), draws the dialog in a shadow root styled by adopted stylesheets, builds the
  * report (scrubbed and capped before the preview is drawn, so the preview is what is sent), posts
- * it as multipart/form-data and reads the answer by the protocol's table. README.md is the
- * reference for the settings, the labels and the protocol.
+ * it as multipart/form-data and reads the answer by the protocol's table. docs/ is the reference
+ * for the settings (settings.md), the labels (appearance.md) and the protocol (protocol.md).
  */
 (() => {
     'use strict';

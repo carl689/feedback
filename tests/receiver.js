@@ -9,7 +9,7 @@
  *   GET  /feedback.js, /feedbackPanel.js     the widget's two files from the directory above
  *   GET  /v2/feedbackPanel.js                 the panel with its version changed to 2.0.0
  *   GET  /pages/<name>                        tests/pages/<name>; a page named csp-* is sent with the
- *                                             strict Content-Security-Policy the README promises works
+ *                                             strict Content-Security-Policy docs/security.md promises works
  *   POST /receive/<channel>                   a report: stored, then answered by the channel's script
  *   POST /script/<channel>                    JSON, one answer or a list: how the next posts are answered
  *   GET  /received/<channel>                  every report the channel received, parsed
