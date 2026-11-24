@@ -199,3 +199,7 @@ FEEDBACK_TEST_CHANNEL=chrome npx playwright test --project=chrome   # the instal
 ```
 
 Playwright's own Chromium and the Firefox project: [docs/testing.md](docs/testing.md).
+
+## License
+
+[MIT](LICENSE).

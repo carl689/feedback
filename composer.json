@@ -2,7 +2,14 @@
     "name": "carl689/feedback",
     "description": "A dependency-free widget that sends a person's bug report, feature request or message, with the page's console errors and an optional screenshot and screen recording, to your own backend.",
     "type": "library",
-    "keywords": ["feedback", "bug report", "screenshot", "screen recording", "widget"],
+    "license": "MIT",
+    "keywords": [
+        "feedback",
+        "bug report",
+        "screenshot",
+        "screen recording",
+        "widget"
+    ],
     "homepage": "https://github.com/carl689/feedback",
     "require": {}
 }
