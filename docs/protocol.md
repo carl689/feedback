@@ -236,7 +236,10 @@ How this widget reads the table, in the details a receiver might ask about:
   part's header or `attachments`.
 - **Treat every string as untrusted text.** Store it, escape it where it is shown, never render it
   as HTML, never fetch a URL in it from the server. A URL from the report becomes a link only when
-  its scheme is `http` or `https`; anything else (`javascript:`, `data:`) is shown as text.
+  its scheme is `http` or `https` and, on your own site, only when it is one of your page routes:
+  an address that acts when opened would run as the staff member who clicked it. Anything else
+  (`javascript:`, `data:`) is shown as text. [Reading reports safely](security.md#reading-reports-safely)
+  has the rules for the page where reports are read.
 - **Treat every file as hostile bytes.** Keep it outside the web root under a name the receiver
   made; accept only the listed types, by content, and never SVG; refuse an image over 8,192 pixels
   on a side; never run it through a converter. Serve it only to whoever may read reports, with the

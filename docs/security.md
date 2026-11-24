@@ -1,6 +1,6 @@
 # Privacy and security
 
-What the widget collects and scrubs, what it needs from a Content Security Policy, and what it cannot protect against: the document to read before putting it on a page that handles sensitive data.
+What the widget collects and scrubs, what it needs from a Content Security Policy, what it cannot protect against, and how to read the reports it sends without being attacked by them: the document to read before putting it on a page that handles sensitive data, and before building the page where reports are read.
 
 ## What is collected
 
@@ -121,6 +121,45 @@ in charge (the page's copy does nothing and says so in the console), with the in
 and a same-origin `endpoint` of the injection's choosing. A Content-Security-Policy that allows
 scripts by nonce or hash, not by origin alone, stops that.
 
+## Reading reports safely
+
+A report is written by whoever pressed Send, and on most sites that is anyone with an account.
+Everything in it is their input: the message, the page address, the title, every console error
+and stack, every request address, `context`, `user`, and both files. The page, email or ticket
+where your team reads reports is where that input does its damage, so build it on these rules.
+
+- **Every string is text.** Put it on the page with `textContent` or your template engine's
+  escaping, never as HTML, in the list as well as in the detail view, and in titles and tooltips.
+  A message of `<img src=x onerror=…>` must appear as those characters.
+- **An address is a link only when you know where it goes.** `http` or `https` is not enough.
+  `javascript:` and `data:` are the obvious cases; the less obvious one is an address on your own
+  site that does something when it is opened (a logout, an export, any endpoint that acts on a
+  GET), which then runs as the staff member who clicked it. Link only to addresses that match
+  your own list of page routes, build the link from the path you matched and not from the
+  reported string, add `rel="noopener noreferrer"`, and show everything else as text. The same
+  for each entry of `pages` and each `page` on an error or request.
+- **Serve the files as inert bytes.** Send the type you detected when the file arrived, with
+  `X-Content-Type-Options: nosniff`, `Content-Security-Policy: default-src 'none'; sandbox` and
+  `Cache-Control: private, no-store`, from a route that checks who is asking. An image that is
+  also valid HTML then cannot run in the reader's session. Never serve them from a public
+  directory or a guessable address, and never pass them to a converter or thumbnailer.
+- **Decide who may read reports, and check it on every route.** A screenshot or recording shows
+  whatever was on the person's screen: other people's names, addresses, orders. Reading reports
+  is its own permission, checked by the list, the detail view and the file route alike, and not
+  something every signed-in person has.
+- **Notifications carry the same text.** An email subject, a chat message or a ticket title made
+  from the message is the sender's input arriving somewhere with its own rules (HTML email,
+  chat markup, mentions that notify people). Keep the sender's words out of them and say only
+  that report number such-and-such arrived, with a link to where it is read.
+- **Text handed to another tool is still the sender's.** Pasted into a tracker or given to an AI
+  assistant, a report goes inside a fenced block labelled as a user's submission, with a fence
+  longer than any run of backticks in the content, so it cannot pass for instructions.
+- **The page's claims are claims.** Who sent a report, when it arrived and which version the
+  server was running come from the receiver. `user`, `sentAt`, `release` and `url` are what the
+  page said; show them as such and decide nothing by them.
+- **Deleting means everything.** Remove the stored files and any notification that quotes the
+  report along with the row, or a report sent by mistake outlives its deletion.
+
 ## What the host does
 
 - A page that shows or handles secrets sets `scrubParams` and `scrubPatterns` for them, removes
@@ -133,3 +172,4 @@ scripts by nonce or hash, not by origin alone, stops that.
 - Call `feedback.reset()` when a person signs out. See [On sign-out](settings.md#on-sign-out).
 - The receiver decides who sent a report and what to keep. See
   [What a receiver must do](protocol.md#what-a-receiver-must-do).
+- Build the page where reports are read on [Reading reports safely](#reading-reports-safely).

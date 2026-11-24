@@ -157,6 +157,11 @@ again, too large, try later). [docs/protocol.md](docs/protocol.md) is the whole 
 including what a receiver must do to be safe: take identity from its own session, store a report
 `id` once, and treat every string and file as untrusted.
 
+A report is written by whoever pressed Send, so the page where your team reads reports is the
+part to build carefully: every string shown as text, links only to your own page routes, files
+served as inert bytes to people allowed to see them. Read
+[Reading reports safely](docs/security.md#reading-reports-safely) before you build it.
+
 Check a receiver against the protocol before a page uses it:
 
 ```sh
