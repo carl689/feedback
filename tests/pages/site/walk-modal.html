@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page with a modal</title>
+<link rel="icon" href="data:,">
+<script src="/feedback.js" defer></script>
+<script src="/site/site.js" defer></script>
+</head>
+<body>
+<h1>Page with a modal</h1>
+<p><button type="button" id="trigger" data-feedback>Feedback</button></p>
+<!-- A modal with a focus trap written the way Bootstrap 5 writes its own -->
+<div id="modal" tabindex="-1" role="dialog" aria-modal="true" aria-label="Edit shipping">
+    <h2>Edit shipping</h2>
+    <input id="weight" aria-label="Weight">
+    <a id="toC" href="walk-c.html">Page C</a>
+</div>
+<script>
+    const modal = document.getElementById('modal');
+    window.__trapped = 0;
+    document.addEventListener('focusin', e => {
+        if (e.target !== document && !modal.contains(e.target)) { window.__trapped++; modal.focus(); }
+    });
+    document.getElementById('weight').focus();
+</script>
+</body>
+</html>

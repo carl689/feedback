@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unsaved form</title>
+<link rel="icon" href="data:,">
+<script src="/feedback.js" defer></script>
+<script src="/site/site.js" defer></script>
+</head>
+<body>
+<h1>Unsaved form</h1>
+<p><label>Name <input id="dirtyField" oninput="window.onbeforeunload = e => { e.preventDefault(); e.returnValue = ''; }"></label></p>
+<nav>
+    <a id="toA" href="walk-a.html">Page A</a>
+    <a id="toB" href="walk-b.html">Page B</a>
+    <a id="toC" href="walk-c.html">Page C</a>
+    <a id="other" href="{{OTHER}}/other.html">Another site</a>
+</nav>
+<p><button type="button" id="trigger" data-feedback>Feedback</button></p>
+</body>
+</html>

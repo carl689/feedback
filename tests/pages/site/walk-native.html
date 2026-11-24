@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page with a native dialog</title>
+<link rel="icon" href="data:,">
+<script src="/feedback.js" defer></script>
+<script src="/site/site.js" defer></script>
+</head>
+<body>
+<h1>Page with a native dialog</h1>
+<dialog id="native" aria-label="Edit shipping">
+    <h2>Edit shipping</h2>
+    <button type="button" id="trigger" data-feedback>Feedback</button>
+    <a id="toB" href="walk-b.html">Page B</a>
+</dialog>
+<script>window.addEventListener('load', () => document.getElementById('native').showModal());</script>
+</body>
+</html>

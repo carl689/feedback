@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page A</title>
+<link rel="icon" href="data:,">
+<script src="/feedback.js" defer></script>
+<script src="/site/site.js" defer></script>
+</head>
+<body>
+<h1>Page A</h1>
+<nav>
+    <a id="toB" href="walk-b.html">Page B</a>
+    <a id="toC" href="walk-c.html">Page C</a>
+    <a id="hash" href="#lower">Lower down</a>
+    <a id="newTab" href="walk-b.html" target="_blank">Page B in a new tab</a>
+    <a id="download" href="/download/report.csv">Download a report</a>
+    <a id="downloadAttr" href="walk-b.html" download="b.html">Save page B</a>
+    <a id="other" href="{{OTHER}}/other.html">Another site</a>
+    <a id="otherDeny" href="{{OTHER}}/other-deny.html">Another site that refuses framing</a>
+    <a id="toOther" href="/to-other">Another site, through a redirect</a>
+    <a id="toOtherDeny" href="/to-other?deny=1">Another site that refuses framing, through a redirect</a>
+    <a id="toModal" href="walk-modal.html">A page with a modal</a>
+</nav>
+<p>
+    <button type="button" id="trigger" data-feedback>Feedback</button>
+    <button type="button" id="scriptNav" onclick="location.href = 'walk-c.html'">Go by script</button>
+    <button type="button" id="scriptReload" onclick="setTimeout(() => location.reload(), 50)">Reload by script</button>
+    <button type="button" id="pushState" onclick="history.pushState({}, '', '?filter=1'); document.getElementById('filtered').textContent = 'filtered'">Apply a filter</button>
+    <span id="filtered"></span>
+</p>
+<p><label>Typed here <input id="typed"></label></p>
+<form id="getForm" action="walk-c.html" method="get"><input name="q" id="q" aria-label="Search"> <button id="getSubmit">Search</button></form>
+<form id="postForm" action="/post-echo" method="post" enctype="multipart/form-data">
+    <input name="note" id="note" aria-label="Note"> <input type="file" name="upload" id="upload" aria-label="File"> <button id="postSubmit">Post</button>
+</form>
+<form id="redirectForm" action="/post-redirect" method="post"><input type="hidden" name="item" value="x"> <button id="redirectSubmit">Post and be redirected</button></form>
+<div style="height: 2000px"></div>
+<p id="lower">Lower down</p>
+<a id="toBLower" href="walk-b.html">Page B, from lower down</a>
+</body>
+</html>

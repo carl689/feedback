@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page C</title>
+<link rel="icon" href="data:,">
+<script src="/feedback.js" defer></script>
+<script src="/site/site.js" defer></script>
+</head>
+<body>
+<h1>Page C</h1>
+<!-- a missing image (a failed resource load) and a failed request, once the stub runs: what fails
+     before it is not seen, as its README says -->
+<script>
+    window.addEventListener('load', () => {
+        const img = document.createElement('img');
+        img.src = '/site/missing-image.png';
+        img.alt = '';
+        document.body.append(img);
+        fetch('/site/no-such-data.json').then(r => r.text()).catch(() => {});
+    });
+</script>
+<nav>
+    <a id="toA" href="walk-a.html">Page A</a>
+    <a id="toB" href="walk-b.html">Page B</a>
+</nav>
+<p><button type="button" id="trigger" data-feedback>Feedback</button></p>
+<p><label>Find a page <input id="search" onkeydown="if (event.key === 'Enter') location.href = 'walk-b.html?q=' + encodeURIComponent(this.value)"></label></p>
+<p><label>Typed here <input id="typedC"></label></p>
+<div style="height: 2000px"></div>
+</body>
+</html>

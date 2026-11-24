@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page with timers</title>
+<link rel="icon" href="data:,">
+<script src="/feedback.js" defer></script>
+<script src="/site/site.js" defer></script>
+</head>
+<body>
+<h1>Page with timers</h1>
+<p>Once armed, this page reloads itself and then sends itself elsewhere, as a page does after a save.</p>
+<p><button type="button" id="trigger" data-feedback>Feedback</button>
+    <button type="button" id="arm" onclick="setTimeout(() => location.reload(), 1200); setTimeout(() => { location.href = 'walk-c.html'; }, 1800)">Arm the timers</button></p>
+<nav><a id="toB" href="walk-b.html">Page B</a></nav>
+</body>
+</html>

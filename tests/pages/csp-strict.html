@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strict CSP</title>
+<!-- Served by receiver.js with: default-src 'none'; script-src 'self'; connect-src 'self';
+     img-src blob:; media-src blob:; style-src 'none' -->
+<script src="/feedback.js" data-endpoint="/receive/csp-page" data-launcher="true" defer></script>
+</head>
+<body>
+<main>
+<h1>A page with a strict Content-Security-Policy</h1>
+<p>No inline script or style is allowed here, and no style sheet at all.</p>
+<button type="button" id="trigger" data-feedback>Report a problem</button>
+</main>
+</body>
+</html>

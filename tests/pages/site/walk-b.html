@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page B</title>
+<link rel="icon" href="data:,">
+<script src="/feedback.js" defer></script>
+<script src="/site/site.js" defer></script>
+<script>
+    // a page that errs: one console error and one uncaught exception, each named by its page
+    window.addEventListener('load', () => {
+        console.error('expected-in-test error on page B');
+        setTimeout(() => { throw new Error('expected-in-test thrown on page B'); }, 0);
+    });
+</script>
+</head>
+<body>
+<h1>Page B</h1>
+<nav>
+    <a id="toA" href="walk-a.html">Page A</a>
+    <a id="toC" href="walk-c.html">Page C</a>
+    <a id="toTop" href="walk-c.html" target="_top">Page C, aimed at the whole window</a>
+    <a id="hash" href="#lower">Lower down</a>
+    <a id="other" href="{{OTHER}}/other.html">Another site</a>
+    <a id="toOther" href="/to-other">Another site, through a redirect</a>
+    <a id="download" href="/download/report.csv">Download a report</a>
+    <a id="nothing" href="/nothing">An address answered 204</a>
+    <a id="toALower" href="walk-a.html#lower">Page A, lower down</a>
+    <a id="toDirty" href="walk-dirty.html">A form with unsaved changes</a>
+</nav>
+<p><button type="button" id="trigger" data-feedback>Feedback</button>
+    <button type="button" id="scriptNav" onclick="location.href = 'walk-c.html'">Go by script</button>
+    <button type="button" id="scriptReload" onclick="setTimeout(() => location.reload(), 50)">Reload by script</button>
+    <button type="button" id="setTop" onclick="setTimeout(() => { top.location.href = 'walk-a.html'; }, 50)">Send the whole window to page A</button></p>
+<p><label>Typed here <input id="typedB"></label></p>
+<form id="getForm" action="walk-c.html" method="get"><input name="q" id="q" aria-label="Search"> <button id="getSubmit">Search</button></form>
+<form id="postForm" action="/post-echo" method="post" enctype="multipart/form-data">
+    <input name="note" id="note" aria-label="Note"> <input type="file" name="upload" id="upload" aria-label="File"> <button id="postSubmit">Post</button>
+</form>
+<form id="redirectForm" action="/post-redirect" method="post"><input type="hidden" name="item" value="y"> <button id="redirectSubmit">Post and be redirected</button></form>
+<div style="height: 2000px"></div>
+<p id="lower">Lower down</p>
+</body>
+</html>
