@@ -12,7 +12,7 @@ Most in-page feedback and session-replay tools do not capture the screen. They s
 page's DOM and replay or re-render it later, or redraw the page onto a canvas and call that a
 screenshot. That is a reconstruction. It can differ from what the person saw (canvas and video
 content, cross-origin frames and images, fonts, the browser's own controls, a layout that breaks
-only in that browser), and it means sending the page's HTML to someone.
+only in that browser).
 
 This widget asks the browser for the pixels: `getDisplayMedia` for one frame (the screenshot) or
 for a stream recorded with `MediaRecorder` (the recording). What arrives is what was on the
